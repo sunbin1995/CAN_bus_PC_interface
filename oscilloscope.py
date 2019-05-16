@@ -63,8 +63,8 @@ class animationClass():
         #self.canvas.ax1.plot(self.x_time, self.y_currentB, 'g', linewidth=0.5)
         #self.canvas.ax1.plot(self.x_time, self.y_currentC, 'y', linewidth=0.5)
 
-        self.canvas.ax2.plot(self.x_time2, self.dc1, 'r', linewidth=1)
-        self.canvas.ax2.plot(self.x_time2, self.dc2, 'b', linewidth=1)
+        self.canvas.ax2.plot(self.x_time2, self.dc1, 'r', linewidth=0.5)
+        self.canvas.ax2.plot(self.x_time2, self.dc2, 'b', linewidth=0.5)
 
         self.canvas.ax3.plot(self.x_time1, self.y_speed1, 'k', linewidth=1.5, linestyle='--')
         self.canvas.ax3.plot(self.x_time1, self.y_speed2, 'b', linewidth=1.5)
