@@ -62,7 +62,7 @@ class ApplicationWindow(QMainWindow):
         # 选值框
         self.sp = QSpinBox(self)
         self.sp.setMaximum(2000)
-        self.sp.setMinimum(0)
+        self.sp.setMinimum(-2000)
         self.sp.setGeometry(180, 330, 100, 50)
 
         self.sp1 = QSpinBox(self)
@@ -220,7 +220,7 @@ class MyMplCanvas(FigureCanvas):
         self.ax1.set_xlabel('时间（s）')
         self.ax1.set_ylabel('电流（A）')
         self.ax1.set_title('电流/转速')
-        #self.ax1.set_ylim(-15.6, 15.6)
+        self.ax1.set_ylim(-11, 11)
         self.ax2.set_xlabel('时间（s）')
         self.ax2.set_ylabel('电压（V）')
         self.ax2.set_title('母线俩电容电压')

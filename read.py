@@ -72,17 +72,17 @@ class readClass(QThread):
                     elif self.vco.ID == 0x380:
                         self.id1 = hex(self.vco.ID)
                         self.frame1 = list(self.vco.Data)
-                        self.speed1 = float(self.frame1[0] * 256 + self.frame1[1])
-                        self.speed2 = float(self.frame1[2] * 256 + self.frame1[3])
-                        self.time1 = float((self.frame1[4] * 256 + self.frame1[5])/1000)
+                        self.speed1 = float(((self.frame1[0] * 256 + self.frame1[1]) / 32768) - 1) * 2000
+                        self.speed2 = float(((self.frame1[2] * 256 + self.frame1[3])/32768)-1) * 2000  #2000为转速标幺基准值
+                        self.time1 = float((self.frame1[6] * 256 + self.frame1[7])/1000)
                         with open('speed.txt', 'a') as f2:
                             f2.write('{},{},{}\n'.format(self.speed1, self.speed2, self.time1))
                     elif self.vco.ID == 0x480:
                         self.id2 = hex(self.vco.ID)
                         self.frame2 = list(self.vco.Data)
-                        self.dc1 = float(self.frame2[0] * 256 + self.frame2[1])
-                        self.dc2 = float(self.frame2[2] * 256 + self.frame2[3])
-                        self.time2 = float((self.frame2[4] * 256 + self.frame2[5]) / 1000)
+                        self.dc1 = float(((self.frame2[0] * 256 + self.frame2[1]) / 32768) - 1) * 167
+                        self.dc2 = float(((self.frame2[2] * 256 + self.frame2[3])/32768)-1) * 167
+                        self.time2 = float((self.frame2[6] * 256 + self.frame2[7]) / 1000)
                         with open('dc.txt', 'a') as f3:
                             f3.write('{},{},{}\n'.format(self.dc1, self.dc2, self.time2))
             #elif num == 0:
