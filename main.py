@@ -254,7 +254,7 @@ def main():
     receive = read.readClass()
     receive.start()
 
-    App.exit()
+    App.exit() 
     sys.exit(App.exec_())
 
 
