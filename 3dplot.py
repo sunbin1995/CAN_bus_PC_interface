@@ -5,17 +5,18 @@ from mpl_toolkits.mplot3d import Axes3D
 # 设置三维坐标
 fig = plt.figure()
 ax = Axes3D(fig)
-bandwidth1=[]
-z1=[]
-x_time=[]
+ax1 = fig
+bandwidth1 = []
+z1 = []
+x_time = []
 
-bandwidth2=[]
-z2=[]
-x_time1=[]
+bandwidth2 = []
+z2 = []
+x_time1 = []
 
-bandwidth3=[]
-z3=[]
-x_time2=[]
+bandwidth3 = []
+z3 = []
+x_time2 = []
 with open('speed1.txt', 'r') as f, open('speed2.txt', 'r') as f2, open('speed3.txt', 'r') as f3:
     data = f.read()
     data1 = f2.read()
@@ -56,13 +57,17 @@ Y3 = x_time2
 Z1 = z1
 Z2 = z2
 Z3 = z3
-#Y, Z = np.meshgrid(y, z)  # XY平面的网格数据
+
 # 画3d图
-#ax.plot_surface(X, Y,Z,rstride=1, cstride=1, cmap=plt.cm.jet)
-#ax.plot_surface(X,Y,Z, rstride=1, cstride=1, cmap=plt.get_cmap('rainbow'))
 ax.plot(X1, Y1, Z1, 'r', linewidth=2)
 ax.plot(X2, Y2, Z2, 'g', linewidth=2)
 ax.plot(X3, Y3, Z3, 'b', linewidth=2)
-
 plt.show()
 
+# 画2d图
+plt.figure()
+plt.plot(Y1, Z1, 'r', linewidth=1, label='ESO bandwidth=300Hz,')
+plt.plot(Y2, Z2, 'g', linewidth=1, label='ESO bandwidth=200Hz')
+plt.plot(Y3, Z3, 'b', linewidth=1, label='ESO bandwidth=100Hz')
+plt.legend(loc='lower right')
+plt.show()

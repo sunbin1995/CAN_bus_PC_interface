@@ -229,7 +229,7 @@ class MyMplCanvas(FigureCanvas):
         self.ax3.set_xlabel('时间（s）')
         self.ax3.set_ylabel('转速（r/min）')
         self.ax3.set_title('转速')
-        self.ax3 = self.ax1.twinx()  # 与ax1镜像
+        #  self.ax3 = self.ax1.twinx()  # 与ax1镜像
 
         self.ax4.set_xlabel('时间（s）')
         self.ax4.set_ylabel('XX（X）')
