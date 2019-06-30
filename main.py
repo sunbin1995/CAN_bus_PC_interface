@@ -68,7 +68,7 @@ class ApplicationWindow(QMainWindow):
         self.sp1 = QSpinBox(self)
         self.sp1.setMaximum(9999)
         self.sp1.setMinimum(0)
-        self.sp1.setGeometry(180, 410, 100, 50)
+        self.sp1.setGeometry(180, 730, 100, 50)
 
         self.sp2 = QDoubleSpinBox(self)
         self.sp2.setSingleStep(0.01)
@@ -82,6 +82,11 @@ class ApplicationWindow(QMainWindow):
         self.sp4 = QDoubleSpinBox(self)
         self.sp4.setSingleStep(0.01)
         self.sp4.setGeometry(180, 650, 100, 50)
+
+        self.sp5 = QSpinBox(self)
+        self.sp5.setMaximum(3600)
+        self.sp5.setMinimum(-3600)
+        self.sp5.setGeometry(180, 410, 100, 50)
         #  按钮
         self.start_can = QPushButton('启动CAN', self)
         self.start_can.setGeometry(30, 60, 100, 50)
@@ -106,9 +111,9 @@ class ApplicationWindow(QMainWindow):
         self.change_speed.setGeometry(30, 330, 100, 50)
         self.change_speed.clicked.connect(self.send_message_change_speed)
 
-        self.change_A = QPushButton('设定参数r', self)
-        self.change_A.setGeometry(30, 410, 100, 50)
-        self.change_A.clicked.connect(self.send_message_change_a)
+        self.change_position = QPushButton('给定位置', self)
+        self.change_position.setGeometry(30, 410, 100, 50)
+        self.change_position.clicked.connect(self.send_message_change_position)
 
         self.change_B = QPushButton('设定参数kp', self)
         self.change_B.setGeometry(30, 570, 100, 50)
@@ -121,6 +126,10 @@ class ApplicationWindow(QMainWindow):
         self.change_D = QPushButton('设定参数Ki', self)
         self.change_D.setGeometry(30, 650, 100, 50)
         self.change_D.clicked.connect(self.send_message_change_d)
+
+        self.change_A = QPushButton('设定参数r', self)
+        self.change_A.setGeometry(30, 730, 100, 50)
+        self.change_A.clicked.connect(self.send_message_change_a)
 
         self.quit = QPushButton('退出界面', self)
         self.quit.setGeometry(30, 830, 100, 65)
@@ -161,6 +170,9 @@ class ApplicationWindow(QMainWindow):
     def send_message_change_speed(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp.value() & 0xff00) >> 8,
                                                                     self.sp.value() & 0x00ff, 13, 13, 13, 13, 13, 13))
+    def send_message_change_position(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp5.value() & 0xff00) >> 8,
+                                                                    self.sp5.value() & 0x00ff, 18, 18, 18, 18, 18, 18))
 
     def send_message_change_a(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp1.value() & 0xff00) >> 8,
@@ -189,10 +201,13 @@ class ApplicationWindow(QMainWindow):
         filename1 = r'./speed.txt'
         filename2 = r'./current.txt'
         filename3 = r'./dc.txt'
-        if os.path.exists(filename1) and os.path.exists(filename2) and os.path.exists(filename3):
+        filename4 = r'./position.txt'
+        if os.path.exists(filename1) and os.path.exists(filename2) and os.path.exists(filename3)\
+                and os.path.exists(filename4):
             os.remove(filename1)
             os.remove(filename2)
             os.remove(filename3)
+            os.remove(filename4)
             self.canvas.ax1.clear()
             self.canvas.ax2.clear()
             self.canvas.ax3.clear()
@@ -232,8 +247,8 @@ class MyMplCanvas(FigureCanvas):
         #  self.ax3 = self.ax1.twinx()  # 与ax1镜像
 
         self.ax4.set_xlabel('时间（s）')
-        self.ax4.set_ylabel('XX（X）')
-        self.ax4.set_title('待定')
+        self.ax4.set_ylabel('角度')
+        self.ax4.set_title('位置')
 
         FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)

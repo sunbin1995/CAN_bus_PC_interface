@@ -37,20 +37,31 @@ class readClass(QThread):
 
         self.speed1 = []
         self.speed2 = []
+
         self.currentA = []
         self.currentB = []
         self.currentC = []
+
         self.dc1 = []
         self.dc2 = []
+
+        self.position1 = []
+        self.position2 = []
+
         self.time = []
         self.time1 = []
         self.time2 = []
+        self.time3 = []
+
         self.frame = []
         self.frame1 = []
         self.frame2 = []
+        self.frame3 = []
+
         self.id = 0
         self.id1 = 0
         self.id2 = 0
+        self.id3 = 0
 
     def run(self):
         while True:
@@ -85,6 +96,14 @@ class readClass(QThread):
                         self.time2 = float((self.frame2[6] * 256 + self.frame2[7]) / 1000)
                         with open('dc.txt', 'a') as f3:
                             f3.write('{},{},{}\n'.format(self.dc1, self.dc2, self.time2))
+                    elif self.vco.ID == 0x580:
+                        self.id3 = hex(self.vco.ID)
+                        self.frame3 = list(self.vco.Data)
+                        self.position1 = float(((self.frame3[0] * 256 + self.frame3[1]) / 32768) - 1) * 10*360
+                        self.position2 = float(((self.frame3[2] * 256 + self.frame3[3]) / 32768) - 1) * 10*360  # 360为角度标幺基准值
+                        self.time3 = float((self.frame3[6] * 256 + self.frame3[7]) / 1000)
+                        with open('position.txt', 'a') as f4:
+                            f4.write('{},{},{}\n'.format(self.position1, self.position2, self.time3))
             #elif num == 0:
                #self.trigger.emit()
 

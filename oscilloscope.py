@@ -12,9 +12,12 @@ class animationClass():
         self.y_currentC = []
         self.dc1 = []
         self.dc2 = []
+        self.position1 = []
+        self.position2 = []
         self.x_time = []
         self.x_time1 = []
         self.x_time2 = []
+        self.x_time3 = []
         self.on_start()
 
     def update_line(self, i):
@@ -23,19 +26,26 @@ class animationClass():
         self.y_currentA = []
         self.y_currentB = []
         self.y_currentC = []
+        self.position1 = []
+        self.position2 = []
         self.dc1 = []
         self.dc2 = []
         self.x_time = []
         self.x_time1 = []
         self.x_time2 = []
+        self.x_time3 = []
         try:
-            with open('current.txt', 'r') as f,  open('speed.txt', 'r') as f2, open('dc.txt', 'r') as f3:
+            with open('current.txt', 'r') as f,  open('speed.txt', 'r') as f2, open('dc.txt', 'r') as f3, \
+                    open('position.txt', 'r') as f4:
                 data = f.read()
                 data1 = f2.read()
                 data2 = f3.read()
+                data3 = f4.read()
+
                 lines = data.split('\n')
                 lines2 = data1.split('\n')
                 lines3 = data2.split('\n')
+                lines4 = data3.split('\n')
                 for line in lines:
                     if len(line) > 1:
                         current_a, current_b, current_c, time = line.split(',')
@@ -55,6 +65,12 @@ class animationClass():
                         self.dc1.append(float(dc1))
                         self.dc2.append(float(dc2))
                         self.x_time2.append(float(time2))
+                for line in lines4:
+                    if len(line) > 1:
+                        position1, position2, time3 = line.split(',')
+                        self.position1.append(float(position1))
+                        self.position2.append(float(position2))
+                        self.x_time3.append(float(time3))
         except:
             pass
 
@@ -69,6 +85,8 @@ class animationClass():
         self.canvas.ax3.plot(self.x_time1, self.y_speed1, 'k', linewidth=1.5, linestyle='--')
         self.canvas.ax3.plot(self.x_time1, self.y_speed2, 'b', linewidth=1.5)
 
+        self.canvas.ax4.plot(self.x_time3, self.position1, 'k', linewidth=1.5)
+        self.canvas.ax4.plot(self.x_time3, self.position2, 'b', linewidth=1.5)
     def on_start(self):
 
         self.ani = FuncAnimation(self.canvas.figure, self.update_line, interval=800, repeat=False)
