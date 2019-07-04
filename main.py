@@ -52,7 +52,6 @@ class ApplicationWindow(QMainWindow):
         self.text1.setGeometry(30, 260, 100, 40)
         self.text1.setPlainText("   未连接")
         self.text1.setReadOnly(True)
-
         self.text2 = QTextEdit(self)
         self.text2.setTextColor(QColor(255, 0, 0))
         self.text2.setGeometry(180, 260, 100, 40)
@@ -234,11 +233,11 @@ class MyMplCanvas(FigureCanvas):
         # self.ax5 = self.fig.add_axes([0.3,0.7,0.1,0.1])#添加小图操作
         self.ax1.set_xlabel('时间（s）')
         self.ax1.set_ylabel('电流（A）')
-        self.ax1.set_title('电流/转速')
-        self.ax1.set_ylim(-11, 11)
+        self.ax1.set_title('电流')
+        #self.ax1.set_ylim(-11, 11)
         self.ax2.set_xlabel('时间（s）')
         self.ax2.set_ylabel('电压（V）')
-        self.ax2.set_title('母线俩电容电压')
+        self.ax2.set_title('母线两电容电压')
 
         self.ax2.set_ylim(0, 200)
         self.ax3.set_xlabel('时间（s）')
@@ -247,7 +246,7 @@ class MyMplCanvas(FigureCanvas):
         #  self.ax3 = self.ax1.twinx()  # 与ax1镜像
 
         self.ax4.set_xlabel('时间（s）')
-        self.ax4.set_ylabel('角度')
+        self.ax4.set_ylabel('机械角度（°）')
         self.ax4.set_title('位置')
 
         FigureCanvas.__init__(self, self.fig)
