@@ -17,7 +17,7 @@ x_time1 = []
 bandwidth3 = []
 z3 = []
 x_time2 = []
-with open('speed1.txt', 'r') as f, open('speed2.txt', 'r') as f2, open('speed3.txt', 'r') as f3:
+with open('data/speed1.txt', 'r') as f, open('data/speed2.txt', 'r') as f2, open('data/speed3.txt', 'r') as f3:
     data = f.read()
     data1 = f2.read()
     data2 = f3.read()
@@ -66,8 +66,12 @@ plt.show()
 
 # 画2d图
 plt.figure()
-plt.plot(Y1, Z1, 'r', linewidth=1, label='ESO bandwidth=300Hz,')
-plt.plot(Y2, Z2, 'g', linewidth=1, label='ESO bandwidth=200Hz')
-plt.plot(Y3, Z3, 'b', linewidth=1, label='ESO bandwidth=100Hz')
+plt.set_ylim=(0,500)
+plt.grid(True)
+
+plt.plot(Y1, Z1, 'r', linewidth=1.5, label='ESO bandwidth=300Hz,')
+plt.plot(Y2, Z2, 'g', linewidth=1.5, label='ESO bandwidth=200Hz')
+plt.plot(Y3, Z3, 'b', linewidth=1.5, label='ESO bandwidth=100Hz')
+
 plt.legend(loc='lower right')
 plt.show()

@@ -234,20 +234,26 @@ class MyMplCanvas(FigureCanvas):
         self.ax1.set_xlabel('时间（s）')
         self.ax1.set_ylabel('电流（A）')
         self.ax1.set_title('电流')
-        #self.ax1.set_ylim(-11, 11)
+        self.ax1.grid(True)
+        self.ax1.set_ylim(-11, 11)
         self.ax2.set_xlabel('时间（s）')
         self.ax2.set_ylabel('电压（V）')
         self.ax2.set_title('母线两电容电压')
-
         self.ax2.set_ylim(0, 200)
+        self.ax2.grid(True)
+
         self.ax3.set_xlabel('时间（s）')
         self.ax3.set_ylabel('转速（r/min）')
         self.ax3.set_title('转速')
+        self.ax3.set_xlim(0, 1.5)
+        self.ax3.set_ylim(0, 300)
         #  self.ax3 = self.ax1.twinx()  # 与ax1镜像
+        self.ax3.grid(True)
 
         self.ax4.set_xlabel('时间（s）')
         self.ax4.set_ylabel('机械角度（°）')
         self.ax4.set_title('位置')
+        self.ax4.grid(True)
 
         FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
