@@ -76,8 +76,8 @@ class animationClass():
 
         self.canvas.ax1.plot(self.x_time, self.y_currentA, 'r', linewidth=0.5)#label='A相'
         #self.canvas.ax1.legend(loc='best')#loc='best'
-        #self.canvas.ax1.plot(self.x_time, self.y_currentB, 'g', linewidth=0.5)
-        #self.canvas.ax1.plot(self.x_time, self.y_currentC, 'y', linewidth=0.5)
+        self.canvas.ax1.plot(self.x_time, self.y_currentB, 'g', linewidth=0.5)
+        self.canvas.ax1.plot(self.x_time, self.y_currentC, 'y', linewidth=0.5)
 
         self.canvas.ax2.plot(self.x_time2, self.dc1, 'r', linewidth=0.5)
         self.canvas.ax2.plot(self.x_time2, self.dc2, 'b', linewidth=0.5)

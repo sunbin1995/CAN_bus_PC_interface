@@ -65,13 +65,19 @@ ax.plot(X3, Y3, Z3, 'b', linewidth=2)
 plt.show()
 
 # 画2d图
-plt.figure()
-plt.set_ylim=(0,500)
+plt.figure(figsize= (7,4.33))
+
+#plt.style.use("classic")
+plt.set_ylim=(0, 500)
+#plt.set_xlim=(0, 3)
 plt.grid(True)
 
-plt.plot(Y1, Z1, 'r', linewidth=1.5, label='ESO bandwidth=300Hz,')
-plt.plot(Y2, Z2, 'g', linewidth=1.5, label='ESO bandwidth=200Hz')
-plt.plot(Y3, Z3, 'b', linewidth=1.5, label='ESO bandwidth=100Hz')
+#plt.plot(Y1, Z1, 'r', linewidth=1.5, label='ESO bandwidth=300Hz,')
+#plt.plot(Y2, Z2, 'g', linewidth=1.5, label='ESO bandwidth=200Hz')
+#plt.plot(Y3, Z3, 'b', linewidth=1.5, label='ESO bandwidth=100Hz')
 
+plt.plot(Y1, Z1, 'r', linewidth=1.5, label='b0 = 0.5b')
+plt.plot(Y2, Z2, 'g', linewidth=1.5, label='b0 = b ')
+plt.plot(Y3, Z3, 'b', linewidth=1.5, label='b0 = 2b')
 plt.legend(loc='lower right')
 plt.show()

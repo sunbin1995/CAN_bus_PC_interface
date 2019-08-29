@@ -9,8 +9,9 @@ import matplotlib.pyplot as plt
 from PyQt5 import QtCore, QtWidgets
 import threading
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QSizePolicy, QLabel, QTextEdit, QSpinBox,\
-                            QDoubleSpinBox
+                            QDoubleSpinBox, QComboBox
 from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
 from can import CANalyser
 import read
 import oscilloscope
@@ -23,6 +24,9 @@ class ApplicationWindow(QMainWindow):
         QMainWindow.__init__(self)
         QMainWindow.resize(self, 2000, 2000)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+
+        ##self.setWindowOpacity(0.9)
+       ## self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
         self.setWindowTitle("电机控制系统操作界面")
 
         #  添加画布
@@ -40,100 +44,324 @@ class ApplicationWindow(QMainWindow):
         self.label1 = QLabel(self)
         self.setFont(QFont('微软雅黑', 11))
         self.label1.setText("CAN连接状态:")
-        self.label1.setGeometry(25, 200, 120, 50)
+        self.label1.setGeometry(330, 60, 120, 50)
 
         self.label2 = QLabel(self)
-        self.label2.setText("电机启停状态：")
-        self.label2.setGeometry(180, 200, 120, 50)
+        self.label2.setText("永磁同步电机\n   启停状态：")
+        self.label2.setGeometry(180, 170, 120, 50)
+
+        self.label2.setStyleSheet(
+            '''
+               QLabel{color:black;}
+            ''')
+        self.label3 = QLabel(self)
+        self.label3.setText("感应电机\n启停状态：")
+        self.label3.setGeometry(490, 170, 120, 50)
+        self.label3.setStyleSheet(
+            '''
+               QLabel{color:black;}
+            ''')
 
         #  文字
         self.text1 = QTextEdit(self)
         self.text1.setTextColor(QColor(255, 0, 0))
-        self.text1.setGeometry(30, 260, 100, 40)
-        self.text1.setPlainText("   未连接")
+        self.text1.setGeometry(480, 65, 100, 40)
+        self.text1.setPlainText("    未连接")
+        self.text1.setStyleSheet('''QTextEdit{
+                background:#ffffff;
+                border:2px solid gray;
+                border-radius:10px;}''')
         self.text1.setReadOnly(True)
+
         self.text2 = QTextEdit(self)
         self.text2.setTextColor(QColor(255, 0, 0))
-        self.text2.setGeometry(180, 260, 100, 40)
+        self.text2.setGeometry(180, 255, 100, 40)
         self.text2.setPlainText("     关停")
+        self.text2.setStyleSheet('''QTextEdit{
+                background:#ffffff;
+                border:2px solid gray;
+                border-radius:10px;}''')
         self.text2.setReadOnly(True)
+
+        self.text3 = QTextEdit(self)
+        self.text3.setTextColor(QColor(255, 0, 0))
+        self.text3.setGeometry(480, 255, 100, 40)
+        self.text3.setPlainText("     关停")
+        self.text3.setStyleSheet('''QTextEdit{
+                background:#ffffff;
+                border:2px solid gray;
+                border-radius:10px;}''')
+        self.text3.setReadOnly(True)
+
+        self.frame1 = QTextEdit(self)
+        self.frame1.setGeometry(20, 40, 580, 90)
+        self.frame1.setStyleSheet('''QTextEdit{
+                border:2px dotted;
+                border-radius:8px;}''')
+        self.frame1.setReadOnly(True)
+        self.label1.raise_()
+        self.text1.raise_()
+
+        self.frame2 = QTextEdit(self)
+        self.frame2.setGeometry(20, 150, 280, 650)
+        self.frame2.setStyleSheet('''QTextEdit{
+                border:2px dotted;
+                border-radius:8px;}''')
+        self.frame2.setReadOnly(True)
+        self.label2.raise_()
+        self.text2.raise_()
+
+        self.frame3 = QTextEdit(self)
+        self.frame3.setGeometry(320, 150, 280, 650)
+        self.frame3.setStyleSheet('''QTextEdit{
+                border:2px dotted;
+                border-radius:8px;}''')
+        self.frame3.setReadOnly(True)
+        self.label3.raise_()
+        self.text3.raise_()
+
+        self.frame4 = QTextEdit(self)
+        self.frame4.setGeometry(20, 815, 580, 90)
+        self.frame4.setReadOnly(True)
+        self.frame4.setStyleSheet('''QTextEdit{
+                border:2px dotted;
+                border-radius:8px;}''')
 
         # 选值框
         self.sp = QSpinBox(self)
         self.sp.setMaximum(2000)
         self.sp.setMinimum(-2000)
-        self.sp.setGeometry(180, 330, 100, 50)
+        self.sp.setSuffix("rpm")
+        self.sp.setGeometry(180, 410, 100, 50)
+        self.sp.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
         self.sp1 = QSpinBox(self)
         self.sp1.setMaximum(9999)
         self.sp1.setMinimum(0)
         self.sp1.setGeometry(180, 730, 100, 50)
+        self.sp1.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
         self.sp2 = QDoubleSpinBox(self)
         self.sp2.setSingleStep(0.01)
-        self.sp2.setGeometry(180, 570, 100, 50)
+        self.sp2.setGeometry(180, 650, 100, 50)
+        self.sp2.setStyleSheet('''QDoubleSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
         self.sp3 = QSpinBox(self)
         self.sp3.setMaximum(9999)
         self.sp3.setMinimum(0)
-        self.sp3.setGeometry(180, 490, 100, 50)
+        self.sp3.setGeometry(180, 570, 100, 50)
+        self.sp3.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
         self.sp4 = QDoubleSpinBox(self)
         self.sp4.setSingleStep(0.01)
-        self.sp4.setGeometry(180, 650, 100, 50)
+        self.sp4.setGeometry(480, 730, 100, 50)
+        self.sp4.setStyleSheet('''QDoubleSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
         self.sp5 = QSpinBox(self)
         self.sp5.setMaximum(3600)
         self.sp5.setMinimum(-3600)
-        self.sp5.setGeometry(180, 410, 100, 50)
+        self.sp5.setSuffix("°")
+        self.sp5.setGeometry(180, 490, 100, 50)
+        self.sp5.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
+
+        self.sp6 = QComboBox(self)
+        self.sp6.setGeometry(180, 330, 100, 50)
+        self.sp6.addItem("VF控制")
+        self.sp6.addItem("矢量控制")
+        self.sp6.addItem("IF控制")
+        self.sp6.addItem("无感矢量控制")
+        self.sp6.addItem("二阶自抗扰控制")
+        self.sp6.addItem("位置控制")
+        self.sp6.setStyleSheet('''QComboBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:15px;
+               font-family: "微软雅黑", Helvetica, Arial, sans-serif;}''')
+
+
         #  按钮
+       ## self.title=QPushButton('电机对拖实验平台上位机界面', self)
+       ## self.title.setGeometry(500, 20, 800, 50)
+       ## self.title.setStyleSheet(
+        ##    '''QPushButton
+         ##       {border:none;color:red;
+         ##       font-size:48px;
+         ##       font-family: "楷体", Helvetica, Arial, sans-serif;}
+         ##   ''')
+
         self.start_can = QPushButton('启动CAN', self)
         self.start_can.setGeometry(30, 60, 100, 50)
+        self.start_can.setStyleSheet(
+            '''QPushButton{background:#6DDF6D;
+               border-radius:10px;}
+               QPushButton:hover{background:green;}
+            ''')
         self.start_can.clicked.connect(self.openCAN)
         self.start_can.clicked.connect(self.press_button_text1)
 
         self.delete_file = QPushButton('清空数据', self)
-        self.delete_file.setGeometry(30, 140, 100, 50)
+        self.delete_file.setGeometry(180, 60, 100, 50)
+        self.delete_file.setStyleSheet(
+            '''QPushButton{background:#F7D674;
+               border-radius:10px;}
+               QPushButton:hover{background:yellow;}
+            ''')
         self.delete_file.clicked.connect(self.remove_txt)
 
         self.start_motor = QPushButton('启动电机', self)
-        self.start_motor.setGeometry(180, 60, 100, 50)
+        self.start_motor.setGeometry(30, 170, 100, 50)
+        self.start_motor.setStyleSheet(
+            '''QPushButton{background:#6DDF6D;
+               border-radius:10px;}
+               QPushButton:hover{background:green;}
+            ''')
         self.start_motor.clicked.connect(self.sendmessage_startmotor)
         self.start_motor.clicked.connect(self.press_button_text2)
 
+        self.start_motor1 = QPushButton('启动电机', self)
+        self.start_motor1.setGeometry(330, 170, 100, 50)
+        self.start_motor1.setStyleSheet(
+            '''QPushButton{background:#6DDF6D;
+               border-radius:10px;}
+               QPushButton:hover{background:green;}
+            ''')
+        self.start_motor1.clicked.connect(self.sendmessage_startmotor1)
+        self.start_motor1.clicked.connect(self.press_button_text4)
+
         self.close_motor = QPushButton('关停电机', self)
-        self.close_motor.setGeometry(180, 140, 100, 50)
+        self.close_motor.setGeometry(30, 250, 100, 50)
+        self.close_motor.setStyleSheet(
+            '''QPushButton{background:#F76677;
+               border-radius:10px;
+               font-}
+               QPushButton:hover{background:red;}
+            ''')
         self.close_motor.clicked.connect(self.sendmessage_closemotor)
         self.close_motor.clicked.connect(self.press_button_text3)
 
+        self.close_motor1 = QPushButton('关停电机', self)
+        self.close_motor1.setGeometry(330, 250, 100, 50)
+        self.close_motor1.setStyleSheet(
+            '''QPushButton{background:#F76677;
+               border-radius:10px;
+               font-}
+               QPushButton:hover{background:red;}
+            ''')
+        self.close_motor1.clicked.connect(self.sendmessage_closemotor1)
+        self.close_motor1.clicked.connect(self.press_button_text5)
+
         self.change_speed = QPushButton('给定转速', self)
-        self.change_speed.setGeometry(30, 330, 100, 50)
+        self.change_speed.setGeometry(30, 410, 100, 50)
         self.change_speed.clicked.connect(self.send_message_change_speed)
+        self.change_speed.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
 
         self.change_position = QPushButton('给定位置', self)
-        self.change_position.setGeometry(30, 410, 100, 50)
+        self.change_position.setGeometry(30, 490, 100, 50)
         self.change_position.clicked.connect(self.send_message_change_position)
+        self.change_position.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
 
         self.change_B = QPushButton('设定参数kp', self)
-        self.change_B.setGeometry(30, 570, 100, 50)
+        self.change_B.setGeometry(30, 650, 100, 50)
         self.change_B.clicked.connect(self.send_message_change_b)
+        self.change_B.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
 
         self.change_C = QPushButton('设定参数β', self)
-        self.change_C.setGeometry(30, 490, 100, 50)
+        self.change_C.setGeometry(30, 570, 100, 50)
         self.change_C.clicked.connect(self.send_message_change_c)
+        self.change_C.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
 
         self.change_D = QPushButton('设定参数Ki', self)
-        self.change_D.setGeometry(30, 650, 100, 50)
+        self.change_D.setGeometry(330, 730, 100, 50)
         self.change_D.clicked.connect(self.send_message_change_d)
+        self.change_D.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
 
         self.change_A = QPushButton('设定参数r', self)
         self.change_A.setGeometry(30, 730, 100, 50)
         self.change_A.clicked.connect(self.send_message_change_a)
+        self.change_A.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
+        self.change_control_mode = QPushButton('控制模式', self)
+        self.change_control_mode.setGeometry(30, 330, 100, 50)
+        self.change_control_mode.clicked.connect(self.send_message_change_mode)
+        self.change_control_mode.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
 
         self.quit = QPushButton('退出界面', self)
-        self.quit.setGeometry(30, 830, 100, 65)
+        self.quit.setGeometry(460, 830, 120, 60)
         self.quit.clicked.connect(self.close)
+        self.quit.setStyleSheet(
+            '''QPushButton{background:#F76677;
+               border-radius:10px;}
+               QPushButton:hover{background:red;}
+            '''
+        )
 
+        self.run_sync = QPushButton('双机同步运行', self)
+        self.run_sync.setGeometry(30, 830, 120, 60)
+        self.run_sync.clicked.connect(self.sendmessage_run_sync)
+        self.run_sync.setStyleSheet(
+            '''QPushButton{background:#6DDF6D;
+               border-radius:10px;}
+               QPushButton:hover{background:green;}
+            '''
+        )
     def plotter(self):
         self.plot = oscilloscope.animationClass(self.canvas, self)  # 实时更新画布
 
@@ -141,17 +369,27 @@ class ApplicationWindow(QMainWindow):
         if canControl.alive == 1:
             self.text1.setTextColor(QColor(0, 255, 0))
             self.text1.setPlainText("   已连接")
+
             self.text2.setTextColor(QColor(255, 120, 0))
             self.text2.setPlainText("     待机")
+
+            self.text3.setTextColor(QColor(255, 120, 0))
+            self.text3.setPlainText("     待机")
+
         else:
-            self.text1.setTextColor(QColor(255, 0, 0))
-            self.text1.setPlainText("   关停")
+            self.text1.setTextColor(QColor(0, 0, 0))
+            self.text1.setPlainText("    关停")
             self.text1.setTextColor(QColor(255, 0, 0))
 
     def press_button_text2(self):
         if canControl.alive == 1:
             self.text2.setTextColor(QColor(0, 255, 0))
             self.text2.setPlainText("     启动")
+
+    def press_button_text4(self):
+        if canControl.alive == 1:
+            self.text3.setTextColor(QColor(0, 255, 0))
+            self.text3.setPlainText("     启动")
 
     def press_button_text3(self):
         if canControl.alive == 1:
@@ -161,6 +399,14 @@ class ApplicationWindow(QMainWindow):
             self.text2.setTextColor(QColor(255, 0, 0))
             self.text2.setPlainText("     关停")
 
+    def press_button_text5(self):
+        if canControl.alive == 1:
+            self.text3.setTextColor(QColor(255, 120, 0))
+            self.text3.setPlainText("     待机")
+        else:
+            self.text3.setTextColor(QColor(255, 0, 0))
+            self.text3.setPlainText("     关停")
+
     def openCAN(self):
         canControl.opendevice()
         canControl.initdevice()
@@ -169,6 +415,7 @@ class ApplicationWindow(QMainWindow):
     def send_message_change_speed(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp.value() & 0xff00) >> 8,
                                                                     self.sp.value() & 0x00ff, 13, 13, 13, 13, 13, 13))
+
     def send_message_change_position(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp5.value() & 0xff00) >> 8,
                                                                     self.sp5.value() & 0x00ff, 18, 18, 18, 18, 18, 18))
@@ -181,6 +428,7 @@ class ApplicationWindow(QMainWindow):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((int(self.sp2.value()*100) & 0xff00) >> 8,
                                                                     int(self.sp2.value()*100) & 0x00ff, 15, 15, 15, 15,
                                                                     15, 15))
+
     def send_message_change_c(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp3.value() & 0xff00) >> 8,
                                                                     self.sp3.value() & 0x00ff, 16, 16, 16, 16, 16, 16))
@@ -189,12 +437,26 @@ class ApplicationWindow(QMainWindow):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((int(self.sp4.value()*100) & 0xff00) >> 8,
                                                                     int(self.sp4.value()*100) & 0x00ff, 17, 17, 17, 17,
                                                                     17, 17))
+
+    def send_message_change_mode(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=(self.sp6.currentIndex(), 19, 19, 19, 19, 19, 19, 19))
+
     def sendmessage_startmotor(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=(99, 99, 99, 99, 99, 99, 99, 99))
         # send type=0正常发送 send_type=1单次发送，send_type=2自发自收，
 
+    def sendmessage_startmotor1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=(98, 98, 98, 98, 98, 98, 98, 98))
+        # send type=0正常发送 send_type=1单次发送，send_type=2自发自收，
+
     def sendmessage_closemotor(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=(2, 2, 2, 2, 2, 2, 2, 2))
+
+    def sendmessage_closemotor1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=(3, 3, 3, 3, 3, 3, 3, 3))
+
+    def sendmessage_run_sync(self):   #双机同步运行
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=(10, 10, 10, 10, 10, 10, 10, 10))
 
     def remove_txt(self):
         filename1 = r'./speed.txt'
@@ -224,7 +486,7 @@ class MyMplCanvas(FigureCanvas):
         plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
         self.fig = Figure(figsize=(width, height), dpi=dpi, facecolor=(1, 1, 1))  # 新建一个figure
-        self.fig.subplots_adjust(left=0.2, bottom=0.05, right=0.95, top=0.95, wspace=0.12, hspace=0.25)
+        self.fig.subplots_adjust(left=0.35, bottom=0.05, right=0.98, top=0.95, wspace=0.18, hspace=0.25)##调整坐标轴位置
         #plt.style.use("classic")
         self.ax1 = self.fig.add_subplot(221)
         self.ax2 = self.fig.add_subplot(222, sharex=self.ax1)
@@ -245,8 +507,8 @@ class MyMplCanvas(FigureCanvas):
         self.ax3.set_xlabel('时间（s）')
         self.ax3.set_ylabel('转速（r/min）')
         self.ax3.set_title('转速')
-        self.ax3.set_xlim(0, 1.5)
-        self.ax3.set_ylim(0, 300)
+        #self.ax3.set_xlim(0, 1.5)
+        #self.ax3.set_ylim(0, 300)
         #  self.ax3 = self.ax1.twinx()  # 与ax1镜像
         self.ax3.grid(True)
 
