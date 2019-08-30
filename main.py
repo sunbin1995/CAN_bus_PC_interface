@@ -188,7 +188,7 @@ class ApplicationWindow(QMainWindow):
                font-size:20px;
                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
-        self.sp6 = QComboBox(self)
+        self.sp6 = QComboBox(self)       #PMSM的控制模式选择
         self.sp6.setGeometry(180, 330, 100, 50)
         self.sp6.addItem("VF控制")
         self.sp6.addItem("矢量控制")
@@ -202,16 +202,55 @@ class ApplicationWindow(QMainWindow):
                font-size:15px;
                font-family: "微软雅黑", Helvetica, Arial, sans-serif;}''')
 
+        self.sp7 = QComboBox(self)   #异步电机的控制模式
+        self.sp7.setGeometry(480, 330, 100, 50)
+        self.sp7.addItem("VF控制")
+        self.sp7.addItem("矢量控制")
+        self.sp7.setStyleSheet('''QComboBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:15px;
+               font-family: "微软雅黑", Helvetica, Arial, sans-serif;}''')
 
-        #  按钮
-       ## self.title=QPushButton('电机对拖实验平台上位机界面', self)
-       ## self.title.setGeometry(500, 20, 800, 50)
-       ## self.title.setStyleSheet(
-        ##    '''QPushButton
-         ##       {border:none;color:red;
-         ##       font-size:48px;
-         ##       font-family: "楷体", Helvetica, Arial, sans-serif;}
-         ##   ''')
+        self.sp8 = QSpinBox(self)   #异步电机的给定转速
+        self.sp8.setMaximum(2000)
+        self.sp8.setMinimum(-2000)
+        self.sp8.setSuffix("rpm")
+        self.sp8.setGeometry(480, 410, 100, 50)
+        self.sp8.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
+
+        self.sp9 = QSpinBox(self)  #异步电机的参数A
+        self.sp9.setMaximum(9999)
+        self.sp9.setMinimum(0)
+        self.sp9.setGeometry(480, 490, 100, 50)
+        self.sp9.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
+
+        self.sp10 = QDoubleSpinBox(self)
+        self.sp10.setSingleStep(0.01)
+        self.sp10.setGeometry(480, 570, 100, 50)
+        self.sp10.setStyleSheet('''QDoubleSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
+
+        self.sp11 = QSpinBox(self)
+        self.sp11.setMaximum(9999)
+        self.sp11.setMinimum(0)
+        self.sp11.setGeometry(480, 650, 100, 50)
+        self.sp11.setStyleSheet('''QSpinBox{
+               border:2px solid gray;
+               border-radius:10px;
+               font-size:20px;
+               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}''')
 
         self.start_can = QPushButton('启动CAN', self)
         self.start_can.setGeometry(30, 60, 100, 50)
@@ -284,6 +323,16 @@ class ApplicationWindow(QMainWindow):
             '''
         )
 
+        self.change_speed1 = QPushButton('给定转速', self)
+        self.change_speed1.setGeometry(330, 410, 100, 50)
+        self.change_speed1.clicked.connect(self.send_message_change_speed1)
+        self.change_speed1.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
+
         self.change_position = QPushButton('给定位置', self)
         self.change_position.setGeometry(30, 490, 100, 50)
         self.change_position.clicked.connect(self.send_message_change_position)
@@ -304,10 +353,30 @@ class ApplicationWindow(QMainWindow):
             '''
         )
 
+        self.change_B1 = QPushButton('设定参数B', self)
+        self.change_B1.setGeometry(330, 570, 100, 50)
+        self.change_B1.clicked.connect(self.send_message_change_b1)
+        self.change_B1.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
+
         self.change_C = QPushButton('设定参数β', self)
         self.change_C.setGeometry(30, 570, 100, 50)
         self.change_C.clicked.connect(self.send_message_change_c)
         self.change_C.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
+
+        self.change_C1 = QPushButton('设定参数A', self)
+        self.change_C1.setGeometry(330, 490, 100, 50)
+        self.change_C1.clicked.connect(self.send_message_change_c1)
+        self.change_C1.setStyleSheet(
             '''QPushButton{background:#c0c0c0;
                border-radius:10px;}
                QPushButton:hover{background:grey;}
@@ -333,9 +402,29 @@ class ApplicationWindow(QMainWindow):
                QPushButton:hover{background:grey;}
             '''
         )
+        self.change_A1 = QPushButton('设定参数C', self)
+        self.change_A1.setGeometry(330, 650, 100, 50)
+        self.change_A1.clicked.connect(self.send_message_change_a1)
+        self.change_A1.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
+
         self.change_control_mode = QPushButton('控制模式', self)
         self.change_control_mode.setGeometry(30, 330, 100, 50)
         self.change_control_mode.clicked.connect(self.send_message_change_mode)
+        self.change_control_mode.setStyleSheet(
+            '''QPushButton{background:#c0c0c0;
+               border-radius:10px;}
+               QPushButton:hover{background:grey;}
+            '''
+        )
+
+        self.change_control_mode = QPushButton('控制模式', self)
+        self.change_control_mode.setGeometry(330, 330, 100, 50)
+        self.change_control_mode.clicked.connect(self.send_message_change_mode1)
         self.change_control_mode.setStyleSheet(
             '''QPushButton{background:#c0c0c0;
                border-radius:10px;}
@@ -362,6 +451,17 @@ class ApplicationWindow(QMainWindow):
                QPushButton:hover{background:green;}
             '''
         )
+
+        self.close_sync = QPushButton('双机同步关停', self)
+        self.close_sync.setGeometry(240, 830, 120, 60)
+        self.close_sync.clicked.connect(self.sendmessage_close_sync)
+        self.close_sync.setStyleSheet(
+            '''QPushButton{background:#F7D674;
+               border-radius:10px;}
+               QPushButton:hover{background:yellow;}
+            '''
+        )
+
     def plotter(self):
         self.plot = oscilloscope.animationClass(self.canvas, self)  # 实时更新画布
 
@@ -411,10 +511,40 @@ class ApplicationWindow(QMainWindow):
         canControl.opendevice()
         canControl.initdevice()
         canControl.startcan()
+    '''
+    上下位机通信自订协议：
+        CAN总线报文最后一位是命令位。前两位是数据位。下面为命令位list
+        99：使能PMSM
+        98; 使能IM
+        
+        2： 关停PMSM·
+        3： 关停IM·
+        10: 双机同步运行·
+        11： 双机同步关停·
+        
+        13： 给定转速
+        14： 改变参数a
+        15:  改变参数b
+        16： 改变参数c
+        17:  改变参数d
+        18： 给定位置
+        19： 改变PMSM控制模式
+        
+        20： 改变IM控制模式·
+        21：给定转速·
+        22：改变参数c·
+        23：改变参数b·
+        24：改变参数a·
+        
+    '''
 
     def send_message_change_speed(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp.value() & 0xff00) >> 8,
                                                                     self.sp.value() & 0x00ff, 13, 13, 13, 13, 13, 13))
+
+    def send_message_change_speed1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp8.value() & 0xff00) >> 8,
+                                                                    self.sp8.value() & 0x00ff, 21, 21, 21, 21, 21, 21))
 
     def send_message_change_position(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp5.value() & 0xff00) >> 8,
@@ -424,14 +554,27 @@ class ApplicationWindow(QMainWindow):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp1.value() & 0xff00) >> 8,
                                                                     self.sp1.value() & 0x00ff, 14, 14, 14, 14, 14, 14))
 
+    def send_message_change_a1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp11.value() & 0xff00) >> 8,
+                                                                    self.sp11.value() & 0x00ff, 24, 24, 24, 24, 24, 24))
+
     def send_message_change_b(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((int(self.sp2.value()*100) & 0xff00) >> 8,
                                                                     int(self.sp2.value()*100) & 0x00ff, 15, 15, 15, 15,
                                                                     15, 15))
 
+    def send_message_change_b1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=((int(self.sp2.value()*100) & 0xff00) >> 8,
+                                                                    int(self.sp2.value()*100) & 0x00ff, 23, 23, 23, 23,
+                                                                    23, 23))
+
     def send_message_change_c(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp3.value() & 0xff00) >> 8,
                                                                     self.sp3.value() & 0x00ff, 16, 16, 16, 16, 16, 16))
+
+    def send_message_change_c1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=((self.sp9.value() & 0xff00) >> 8,
+                                                                    self.sp9.value() & 0x00ff, 22, 22, 22, 22, 22, 22))
 
     def send_message_change_d(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=((int(self.sp4.value()*100) & 0xff00) >> 8,
@@ -440,6 +583,9 @@ class ApplicationWindow(QMainWindow):
 
     def send_message_change_mode(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=(self.sp6.currentIndex(), 19, 19, 19, 19, 19, 19, 19))
+
+    def send_message_change_mode1(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=(self.sp7.currentIndex(), 20, 20, 20, 20, 20, 20, 20))
 
     def sendmessage_startmotor(self):
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=(99, 99, 99, 99, 99, 99, 99, 99))
@@ -457,6 +603,9 @@ class ApplicationWindow(QMainWindow):
 
     def sendmessage_run_sync(self):   #双机同步运行
         canControl.transmit(id=0x01, send_type=1, len=8, InputData=(10, 10, 10, 10, 10, 10, 10, 10))
+
+    def sendmessage_close_sync(self):
+        canControl.transmit(id=0x01, send_type=1, len=8, InputData=(11, 11, 11, 11, 11, 11, 11, 11))
 
     def remove_txt(self):
         filename1 = r'./speed.txt'

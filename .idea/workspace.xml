@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27a85661-9084-4465-800a-78beaede0d24" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3dplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dplot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/position1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/position2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/position3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/position4.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/position5.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/speed1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/speed1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/speed2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/speed2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/speed3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/speed3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oscilloscope.py" beforeDir="false" afterPath="$PROJECT_DIR$/oscilloscope.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot_b.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_b.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="157" column="30" lean-forward="true" selection-start-line="157" selection-start-column="30" selection-end-line="157" selection-end-column="30" />
+            <state relative-caret-position="236">
+              <caret line="528" column="18" lean-forward="true" selection-start-line="528" selection-start-column="18" selection-end-line="528" selection-end-column="18" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -114,11 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plot_b.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="836">
-              <caret line="38" column="63" lean-forward="true" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
-              <folding>
-                <element signature="e#66#76#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="352">
+              <caret line="23" column="74" selection-start-line="23" selection-start-column="74" selection-end-line="23" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -657,18 +642,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plot_b.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="38" column="63" lean-forward="true" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
-          <folding>
-            <element signature="e#66#76#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="352">
+          <caret line="23" column="74" selection-start-line="23" selection-start-column="74" selection-end-line="23" selection-end-column="74" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="157" column="30" lean-forward="true" selection-start-line="157" selection-start-column="30" selection-end-line="157" selection-end-column="30" />
+        <state relative-caret-position="236">
+          <caret line="528" column="18" lean-forward="true" selection-start-line="528" selection-start-column="18" selection-end-line="528" selection-end-column="18" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
