@@ -446,7 +446,7 @@ class ApplicationWindow(QMainWindow):
         self.run_sync.setGeometry(30, 830, 120, 60)
         self.run_sync.clicked.connect(self.sendmessage_run_sync)
         self.run_sync.setStyleSheet(
-            '''QPushButton{background:#6DDF6D;
+            '''QPushButton{background:#60DF60;
                border-radius:10px;}
                QPushButton:hover{background:green;}
             '''
